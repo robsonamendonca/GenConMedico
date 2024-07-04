@@ -1,7 +1,7 @@
 <h2 align="center">ASP.NET Core - Gerenciador web de Consultório Médico usando ASP.NET MVC (GenConMedico)</h2>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/robsonamendonca/qcomprar/main/src/assets/favicon.png" width="300" heigth="300">
+  <img src="GenConMedicoIco.png" width="300" heigth="300">
 </p>
 
 
@@ -9,8 +9,7 @@
   <a href="LICENSE">
     <img alt="License" src="https://img.shields.io/badge/license-MIT-%23F8952D">
   </a>
-  |
-  <a href="https://wakatime.com/badge/user/7b985f77-0bde-4bbf-899e-c4bb0e25f27b/project/87aae40f-4139-4a7c-ae51-fb2af6a96443"><img src="https://wakatime.com/badge/user/7b985f77-0bde-4bbf-899e-c4bb0e25f27b/project/87aae40f-4139-4a7c-ae51-fb2af6a96443.svg" alt="wakatime"></a>
+  |<a href="https://wakatime.com/badge/user/7b985f77-0bde-4bbf-899e-c4bb0e25f27b/project/5daff763-ca55-4ac7-806e-22207790bcbb"><img src="https://wakatime.com/badge/user/7b985f77-0bde-4bbf-899e-c4bb0e25f27b/project/5daff763-ca55-4ac7-806e-22207790bcbb.svg" alt="wakatime"></a>
 </p>
 
 ___
@@ -26,7 +25,7 @@ ___
 
 ___
 
-<img src="https://raw.githubusercontent.com/robsonamendonca/qcomprar/main/src/assets/qcomprar.vercel.app.jpeg" width="1200">
+<img src="GenConMedicoTela.png" width="1200">
 
 ## :information_source: Sobre
 
@@ -72,11 +71,9 @@ ___
 
 # Deploy
 
-## Instale as páginas gh da CLI Angular:
-
 ## Executar compilação:
 
-## Implantar em páginas gh
+## Implantar
 
 ## Referência
 
