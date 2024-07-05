@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {}
+    "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {}
   },
   "projects": {
-    "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {
+    "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
+        "projectUniqueName": "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
         "projectName": "GenConMedico",
-        "projectPath": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
+        "projectPath": "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
         "packagesPath": "C:\\Users\\usuario\\.nuget\\packages\\",
-        "outputPath": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\obj\\",
+        "outputPath": "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,6 +43,18 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
