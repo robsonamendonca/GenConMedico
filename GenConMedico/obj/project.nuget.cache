@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "d5jPlsx5opozuGAoPrET8WUCRvPqZaizTVi1PkvDx0+PUa1hpx2GV9Z8SMNXLd6oMNygjj2BQI18vpV0dw5WIg==",
+  "dgSpecHash": "cUngZg2pEuDmIJAdDpEHqO3Fv4RaZD+92wz9Tt35GRIwYRmBz9Ndw/cYZ5176kmZ7e4Z1YyyvCPb/Pv02mBZSg==",
   "success": true,
-  "projectFilePath": "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
+  "projectFilePath": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\usuario\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\usuario\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
