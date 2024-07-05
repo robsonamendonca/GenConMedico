@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.AddDbContext<GenConMed>();
 builder.Services.AddScoped<IValidator<AdicionarViewModel>, AdicionarMedicoValidator>();
+builder.Services.AddScoped<IValidator<EditarViewModal>, EditarMedicoValidator>();
 
 var app = builder.Build();
 
