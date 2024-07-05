@@ -16,6 +16,7 @@ public class GenConMed : DbContext
 
 
     public DbSet<Medico> Medicos => Set<Medico>();
+    public DbSet<Paciente> Pacientes => Set<Paciente>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -24,5 +25,6 @@ public class GenConMed : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){
         modelBuilder.ApplyConfiguration(new MedicoConfiguration());
+        modelBuilder.ApplyConfiguration(new PacienteConfiguration());
     }
 }
