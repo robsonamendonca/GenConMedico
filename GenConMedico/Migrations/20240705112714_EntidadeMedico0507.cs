@@ -4,7 +4,7 @@
 
 namespace GenConMedico.Migrations
 {
-    public partial class EntidadeMedico : Migration
+    public partial class EntidadeMedico0507 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

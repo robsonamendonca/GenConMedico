@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GenConMedico.Migrations
 {
     [DbContext(typeof(GenConMed))]
-    partial class GenConMedicoModelSnapshot : ModelSnapshot
+    partial class GenConMedModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

@@ -1,7 +1,14 @@
+using FluentValidation;
+using GenConMedico.Models.Contexts;
+using GenConMedico.Validators.Medicos;
+using GenConMedico.ViewModels.Medicos;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+builder.Services.AddDbContext<GenConMed>();
+builder.Services.AddScoped<IValidator<AdicionarViewModel>, AdicionarMedicoValidator>();
 
 var app = builder.Build();
 

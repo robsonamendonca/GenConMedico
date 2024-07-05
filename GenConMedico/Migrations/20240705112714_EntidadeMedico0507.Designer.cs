@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GenConMedico.Migrations
 {
     [DbContext(typeof(GenConMed))]
-    [Migration("20240704175922_EntidadeMedico")]
-    partial class EntidadeMedico
+    [Migration("20240705112714_EntidadeMedico0507")]
+    partial class EntidadeMedico0507
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

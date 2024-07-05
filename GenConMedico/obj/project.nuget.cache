@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "cUngZg2pEuDmIJAdDpEHqO3Fv4RaZD+92wz9Tt35GRIwYRmBz9Ndw/cYZ5176kmZ7e4Z1YyyvCPb/Pv02mBZSg==",
+  "dgSpecHash": "Rk7z+1FXNM4ENGW84EeeH2X1l3xJ9ls8Wqcwdc/nshrU6QOagMECLn9P6mIrqzRWBf80PA7VO2e6EV5FduO8BQ==",
   "success": true,
   "projectFilePath": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\usuario\\.nuget\\packages\\fluentvalidation\\11.2.1\\fluentvalidation.11.2.1.nupkg.sha512",
+    "C:\\Users\\usuario\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.2\\fluentvalidation.aspnetcore.11.2.2.nupkg.sha512",
+    "C:\\Users\\usuario\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.2.1\\fluentvalidation.dependencyinjectionextensions.11.2.1.nupkg.sha512",
     "C:\\Users\\usuario\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\usuario\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\usuario\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
