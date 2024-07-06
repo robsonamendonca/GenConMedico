@@ -53,7 +53,7 @@
                         <tbody>
                             @foreach(var item in Model){
                                 <tr>
-                                    <td>@item.CPF</td>
+                                    <td mask="999.999.999-99">@item.CPF</td>
                                     <td>@item.Nome</td>
                                     <td>
                                         <a href="/pacientes/editar/@item.Id"

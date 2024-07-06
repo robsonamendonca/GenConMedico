@@ -1,51 +1,53 @@
 @{
-    ViewData["Title"] = "Médico - Excluir";
+    ViewData["Title"] = "Paciente: Editar";
 }
-@model GenConMedico.ViewModels.Medicos.ListarMedicoViewModel
 
+@model GenConMedico.ViewModels.Pacientes.EditarViewModal
 
 <section class="content-header">
     <div class="contariner-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Excluir médico</h1>
+                <h1>Editar paciente</h1>
             </div>
         </div>
     </div>
 </section>
 
 <section class="content">
-    <div class="alert alert-danger">
-        <span class="fa fa-exclamation-circle"></span>
-        Deseja realmente excluir este cadastro?
-    </div>
     <div class="row">
         <div class="col-12">
-            <form asp-action="Excluir">
-                <div class="card card-outline card-danger">
+            <form asp-action="Editar">
+                <div class="card">
                     <div class="card-body">
                         <div class="text-danger" asp-validation-summary="ModelOnly">
 
                         </div>
                         <div class="form-group">
-                            <label asp-for="CRM" class="control-label"></label>
-                            <input asp-for="CRM" class="form-control" readonly>
-                            <span asp-validation-for="CRM" class="text-danger"></span>
+                            <label asp-for="CPF" class="control-label"></label>
+                            <input asp-for="CPF" class="form-control" mask="999.999.999-99">
+                            <span asp-validation-for="CPF" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Nome" class="control-label"></label>
-                            <input asp-for="Nome" class="form-control" readonly>
+                            <input asp-for="Nome" class="form-control">
                             <span asp-validation-for="Nome" class="text-danger"></span>
                         </div>
+                        <div class="form-group">
+                            <label asp-for="DataNascimento" class="control-label"></label>
+                            <input asp-for="DataNascimento" class="form-control">
+                            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="row">
                         <div class="col text-left">
-                            <a href="/medicos/editar/@Model.Id" class="btn btn-outline-primary">Voltar</a>
+                            <a href="/pacientes/excluir/@Model.Id" class="btn btn-danger">Excluir</a>
                         </div>
                         <div class="col text-right">
-                            <button class="btn btn-danger" type="submit">Excluir</button>
+                            <button class="btn btn-primary" type="submit">Salvar</button>
                         </div>
                     </div>
                 </div>

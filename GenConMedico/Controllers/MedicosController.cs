@@ -115,6 +115,7 @@ public class MedicosController : Controller
             medico.CRM = editarViewModal.CRM;
             medico.Nome = editarViewModal.Nome;
 
+            _context.Update(medico);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

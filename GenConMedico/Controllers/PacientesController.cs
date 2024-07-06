@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices.ComTypes;
+using System.Text.RegularExpressions;
 using System.IO.Pipelines;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -70,8 +72,9 @@ public class PacientesController : Controller
 
         var paciente = new Paciente
         {
-            CPF = dados.CPF,
+            CPF = Regex.Replace( dados.CPF, "[^0-9]",""),
             Nome = dados.Nome,
+            DataNascimento = dados.DataNascimento,
         };
 
         _context.Pacientes.Add(paciente);
@@ -91,7 +94,8 @@ public class PacientesController : Controller
             {
                 Id = paciente.Id,
                 CPF = paciente.CPF,
-                Nome = paciente.Nome
+                Nome = paciente.Nome,
+                DataNascimento = paciente.DataNascimento
             });
         }
         return NotFound();
@@ -113,9 +117,11 @@ public class PacientesController : Controller
         var paciente = _context.Pacientes.Find(Id);
         if (paciente != null)
         {
-            paciente.CPF = editarViewModal.CPF;
+            paciente.CPF = Regex.Replace(editarViewModal.CPF, "[^0-9]","");
             paciente.Nome = editarViewModal.Nome;
+            paciente.DataNascimento = editarViewModal.DataNascimento;
 
+            _context.Update(paciente);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

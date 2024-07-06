@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace GenConMedico.ViewModels.Pacientes
 {
@@ -9,6 +6,10 @@ namespace GenConMedico.ViewModels.Pacientes
     {
         public string CPF { get; set; } = string.Empty;
         public string Nome { get; set; } = string.Empty;
+
+        [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
+        public DateTime DataNascimento { get; set; }
 
     }
 }
