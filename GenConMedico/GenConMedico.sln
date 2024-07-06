@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenConMedico", "GenConMedico.csproj", "{38DE16EC-3486-4046-B347-90C090E6EE11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38DE16EC-3486-4046-B347-90C090E6EE11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38DE16EC-3486-4046-B347-90C090E6EE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38DE16EC-3486-4046-B347-90C090E6EE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38DE16EC-3486-4046-B347-90C090E6EE11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {10C3B646-8BEA-4270-8C28-EB28384161CF}
+	EndGlobalSection
+EndGlobal

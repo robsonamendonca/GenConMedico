@@ -1,6 +1,3 @@
-@{
-    ViewData["Title"] = "Monitoramentos";
-}
 @model IEnumerable<GenConMedico.ViewModels.MonitoriamentoPaciente.ListarMonitoramentoViewModal>
 
 <section class="content-header">
@@ -20,20 +17,15 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col text-right">
-                            <a href="/monitoramento/adicionar?idPaciente?@ViewBag.IdPaciente"
-                            class="btn btn-outline-primary btn-sm" >
-                            Novo Registro
-                            </a>
+                           <a href="/monitoramento/adicionar?idPaciente=@ViewBag.IdPaciente" class="btn btn-outline-primary btn-sm">Novo registro</a>
                         </div>
                     </div>
                 </div>
-                <div class="car-body table-responive p-0">
+                <div class="card-body table-responsive p-0">
                     <table class="table table-head-fixed text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 150px;">
-                                    Data    
-                                </th>
+                                <th style="width: 150px;">Data</th>
                                 <th>PA</th>
                                 <th>FC</th>
                                 <th>Temperatura</th>
@@ -42,29 +34,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(var item in Model){
+                            @foreach (var m in Model)
+                            {
                                 <tr>
-                                    <td>@item.DataAfericao.ToString("dd/MM/yyyy HH:mm")</td>
-                                    <td>@item.PressaoArterial</td>
-                                    <td>@item.FrequenciaCardiaca bpm</td>
-                                    <td>@item.Temperatura °</td>
-                                    <td>@item.SaturacaoOxigenio %</td>
+                                    <td>@m.DataAfericao.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@m.PressaoArterial</td>
+                                    <td>@m.FrequenciaCardiaca bpm</td>
+                                    <td>@m.Temperatura º</td>
+                                    <td>@m.SaturacaoOxigenio %</td>
                                     <td>
-                                        <a href="/pacientes/editar/@item.Id"
-                                        class="btn btn-secondary btn-sm mr-1"
-                                        title="Editar Registro">
-                                          <span class="fas fa-edit"></span>
+                                        <a href="/monitoramento/editar/@m.Id" class="btn btn-secondary btn-sm mr-1" title="Editar registro">
+                                            <span class="fas fa-edit"></span>
                                         </a>
-
                                     </td>
                                 </tr>
                             }
                         </tbody>
-
                     </table>
-                </div>                
+                </div>
             </div>
         </div>
-
     </div>
 </div>

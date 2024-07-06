@@ -1,7 +1,4 @@
-@{
-    ViewData["Title"] = "Pacientes";
-}
-@model IEnumerable<GenConMedico.ViewModels.Pacientes.ListarPacienteViewModal>
+@model IEnumerable<GenConMedico.ViewModels.Pacientes.ListarPacienteViewModel>
 
 <section class="content-header">
     <div class="container-fluid">
@@ -21,10 +18,7 @@
                     <div class="d-flex justify-content-between">
                         <form asp-action="Index">
                             <div class="input-group input-group-sm" style="width: 300px;">
-                                <input type="text" class="form-control" 
-                                name="filtro" id="filtro"
-                                value="@ViewBag.Filtro"
-                                placeholder="Buscar Paciente">
+                                <input type="text" class="form-control" placeholder="Buscar paciente" name="filtro" value="@ViewBag.Filtro">
 
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
@@ -33,77 +27,63 @@
                                 </div>
                             </div>
                         </form>
-                        <a href="/pacientes/adicionar"
-                        class="btn btn-outline-primary btn-sm" >
-                        Novo Paciente
-                        </a>
+
+                        <a href="/pacientes/adicionar" class="btn btn-outline-primary btn-sm">Novo paciente</a>
                     </div>
                 </div>
-                <div class="car-body table-responive p-0">
+                <div class="card-body table-responsive p-0">
                     <table class="table table-head-fixed text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 200px;">
-                                    CPF    
-                                </th>
+                                <th style="width: 200px;">CPF</th>
                                 <th>Nome</th>
                                 <th style="width: 40px;"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(var item in Model){
+                            @foreach (var m in Model)
+                            {
                                 <tr>
-                                    <td mask="999.999.999-99">@item.CPF</td>
-                                    <td>@item.Nome</td>
+                                    <td mask="999.999.999-99">@m.CPF</td>
+                                    <td>@m.Nome</td>
                                     <td>
-                                        <a href="/pacientes/editar/@item.Id"
-                                        class="btn btn-secondary btn-sm mr-1"
-                                        title="Editar Paciente">
-                                          <span class="fas fa-edit"></span>
+                                        <a href="/pacientes/editar/@m.Id" class="btn btn-secondary btn-sm mr-1" title="Editar paciente">
+                                            <span class="fas fa-edit"></span>
                                         </a>
-
-                                        <a href="/monitoramento/?IdPaciente=@item.Id"
-                                        class="btn btn-secondary btn-sm mr-1"
-                                        title="Monitoramento de sinais vitais">
-                                          <span class="fas fa-list"></span>
+                                        <a href="/monitoramento?idPaciente=@m.Id" class="btn btn-secondary btn-sm mr-1" title="Monitoramento de sinais vitais">
+                                            <span class="fas fa-list"></span>
                                         </a>
-
                                     </td>
                                 </tr>
                             }
                         </tbody>
-
                     </table>
                 </div>
                 <div class="card-footer clearfix">
-                    @if( @ViewBag.TotalPaginas > 1){                    
+                    @if(ViewBag.TotalPaginas > 0)
+                    {
                         <ul class="pagination pagination-sm m-0 float-right">
-                            @if(@ViewBag.NumeroPagina > 1)
-                            {
-                                <li class="page-item">                            
-                                    <a class="page-link" 
-                                    href="@Url.Action("Index","Pacientes", new {Filtro = @ViewBag.Filtro, Pagina = @ViewBag.NumeroPagina -1})">
-                                        &laquo;
-                                    </a>
-                                </li>                            
-                            }
-                            <li class="page-item page-link">                            
-                                Página @ViewBag.NumeroPagina de @ViewBag.TotalPaginas
+                        @if(ViewBag.NumeroPagina > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", "Pacientes", new { Filtro = @ViewBag.Filtro, Pagina = @ViewBag.NumeroPagina - 1 })">
+                                    &laquo;
+                                </a>
                             </li>
-                            @if(@ViewBag.NumeroPagina < @ViewBag.TotalPaginas)
-                            {
-                                <li class="page-item">                            
-                                    <a class="page-link" 
-                                    href="@Url.Action("Index","Pacientes", new {Filtro = @ViewBag.Filtro, Pagina = @ViewBag.NumeroPagina +1})">
-                                        &raquo;
-                                    </a>
-                                </li>                            
-                            }                        
-                        </ul>
+                        }
+                        <li class="page-item page-link">Página @ViewBag.NumeroPagina de @ViewBag.TotalPaginas</li>
+                        @if(ViewBag.NumeroPagina < @ViewBag.TotalPaginas)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", "Pacientes", new { Filtro = @ViewBag.Filtro, Pagina = @ViewBag.NumeroPagina + 1 })">
+                                    &raquo;
+                                </a>
+                            </li>
+                        }
+                    </ul>
                     }
                 </div>
             </div>
         </div>
-
     </div>
 </div>

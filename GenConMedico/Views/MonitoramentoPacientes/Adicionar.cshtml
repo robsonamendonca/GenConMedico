@@ -1,14 +1,10 @@
-@{
-    ViewData["Title"] = "Monitoramento: Adicionar";
-}
-
 @model GenConMedico.ViewModels.MonitoriamentoPaciente.AdicionarMonitoramentoViewModel
 
 <section class="content-header">
-    <div class="contariner-fluid">
+    <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Registrar sinais vitais</h1>
+                <h1>Cadastrar registro de sinais vitais</h1>
             </div>
         </div>
     </div>
@@ -17,8 +13,8 @@
 <section class="content">
     <div class="row">
         <div class="col-12">
-            <form asp-action="Adicionar">
-                <div class="car">
+            <form asp-action="Editar" asp-route-idPaciente="@ViewBag.IdPaciente">
+                <div class="card">
                     <div class="card-body">
                         <div class="form-group">
                             <label asp-for="PressaoArterial" class="control-label"></label>
@@ -45,14 +41,16 @@
                             <input asp-for="DataAfericao" class="form-control">
                             <span asp-validation-for="DataAfericao" class="text-danger"></span>
                         </div>
-
                     </div>
-                </div>
-                <div class="card-footer text-right">
-                    <button class="btn btn-primary" type="submit">Salvar</button>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col text-right">
+                                <button class="btn btn-primary" type="submit">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
-
 </section>

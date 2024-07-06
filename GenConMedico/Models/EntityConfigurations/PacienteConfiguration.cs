@@ -1,41 +1,38 @@
-using GenConMedico.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using GenConMedico.Models.Entities;
 
-namespace GenConMedico.Models.EntityConfigurations;
-
-public class PacienteConfiguration : IEntityTypeConfiguration<Paciente>
+namespace GenConMedico.Models.EntityConfigurations
 {
-    public void Configure(EntityTypeBuilder<Paciente> builder)
+    public class PacienteConfiguration : IEntityTypeConfiguration<Paciente>
     {
-        builder.ToTable("Pacientes");
-        
-        builder.HasKey(x => x.Id);
-        
-        builder.Property(x => x.CPF)
-            .IsRequired()
-            .HasMaxLength(11);
+        public void Configure(EntityTypeBuilder<Paciente> builder)
+        {
+            builder.ToTable("Pacientes");
 
-        builder.HasIndex(x => x.CPF)
-            .IsUnique();
+            builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Nome)
-            .IsRequired()
-            .HasMaxLength(20);
+            builder.Property(x => x.CPF)
+                   .IsRequired()
+                   .HasMaxLength(11);
 
-        builder.Property(x => x.DataNascimento)
-            .IsRequired();
+            builder.HasIndex(x => x.CPF)
+                   .IsUnique();
 
-//RELACIONAMENTOS
+            builder.Property(x => x.Nome)
+                   .IsRequired()
+                   .HasMaxLength(200);
 
-        builder.HasOne(p => p.InformacoesComplementares)
-        .WithOne(i => i.Paciente)
-        .HasForeignKey<InformacoesComplementaresPaciente>(i => i.IdPaciente);
+            builder.Property(x => x.DataNascimento)
+                   .IsRequired();
 
-        builder.HasMany(p => p.Monitoramentos)
-        .WithOne(m => m.Paciente)
-        .HasForeignKey(m => m.IdPaciente);
+            builder.HasOne(p => p.InformacoesComplementares)
+                   .WithOne(i => i.Paciente)
+                   .HasForeignKey<InformacoesComplementaresPaciente>(i => i.IdPaciente);
 
+            builder.HasMany(p => p.Monitoramentos)
+                   .WithOne(m => m.Paciente)
+                   .HasForeignKey(m => m.IdPaciente);
+        }
     }
-
 }

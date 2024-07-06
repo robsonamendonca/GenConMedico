@@ -1,27 +1,27 @@
 using FluentValidation;
 using GenConMedico.Models.Contexts;
+using GenConMedico.Validators.Consultas;
 using GenConMedico.Validators.Medicos;
-using GenConMedico.ViewModels.Medicos;
+using GenConMedico.Validators.MonitoramentoPaciente;
 using GenConMedico.Validators.Pacientes;
+using GenConMedico.ViewModels.Consultas;
+using GenConMedico.ViewModels.Medicos;
+using GenConMedico.ViewModels.MonitoramentoPaciente;
 using GenConMedico.ViewModels.Pacientes;
-using AdicionarViewModelMed = GenConMedico.ViewModels.Medicos.AdicionarViewModel;
-using EditarViewModalMed = GenConMedico.ViewModels.Medicos.EditarViewModal;
-
-using AdicionarViewModelPac = GenConMedico.ViewModels.Pacientes.AdicionarViewModel;
-using EditarViewModalMedPac = GenConMedico.ViewModels.Pacientes.EditarViewModal;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
-builder.Services.AddDbContext<GenConMed>();
-builder.Services.AddScoped<IValidator<AdicionarViewModelMed>, AdicionarMedicoValidator>();
-builder.Services.AddScoped<IValidator<EditarViewModalMed>, EditarMedicoValidator>();
-
-builder.Services.AddScoped<IValidator<AdicionarViewModelPac>, AdicionarPacienteValidator>();
-builder.Services.AddScoped<IValidator<EditarViewModalMedPac>, EditarPacienteValidator>();
-
+builder.Services.AddDbContext<GenConMedContext>();
+builder.Services.AddScoped<IValidator<AdicionarMedicoViewModel>, AdicionarMedicoValidator>();
+builder.Services.AddScoped<IValidator<EditarMedicoViewModel>, EditarMedicoValidator>();
+builder.Services.AddScoped<IValidator<AdicionarPacienteViewModel>, AdicionarPacienteValidator>();
+builder.Services.AddScoped<IValidator<EditarPacienteViewModel>, EditarPacienteValidator>();
+builder.Services.AddScoped<IValidator<AdicionarMonitoramentoViewModel>, AdicionarMonitoramentoValidator>();
+builder.Services.AddScoped<IValidator<EditarMonitoramentoViewModel>, EditarMonitoramentoValidator>();
+builder.Services.AddScoped<IValidator<AdicionarConsultaViewModel>, AdicionarConsultaValidator>();
+builder.Services.AddScoped<IValidator<EditarConsultaViewModel>, EditarConsultaValidator>();
 
 var app = builder.Build();
 

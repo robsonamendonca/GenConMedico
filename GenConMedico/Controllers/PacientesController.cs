@@ -1,181 +1,184 @@
-using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
-using System.IO.Pipelines;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using GenConMedico.Models.Contexts;
 using GenConMedico.Models.Entities;
 using GenConMedico.ViewModels.Pacientes;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace GenConPaciente.Controllers;
-
-public class PacientesController : Controller
+namespace GenConMedico.Controllers
 {
-
-    private readonly GenConMed _context;
-
-    private readonly IValidator<AdicionarViewModel> _adicionarViewModelValidator;
-    private readonly IValidator<EditarViewModal> _editarViewModelValidator;
-
-    private const int TAMANHO_PAGINA = 5;
-
-    public PacientesController(GenConMed context
-    , IValidator<AdicionarViewModel> adicionarViewModelValidator
-    , IValidator<EditarViewModal> editarViewModelValidator
-    )
+    public class PacientesController : Controller
     {
-        _context = context;
-       _adicionarViewModelValidator = adicionarViewModelValidator;
-       _editarViewModelValidator = editarViewModelValidator;
-    }
+        private readonly GenConMedContext _context;
+        private readonly IValidator<AdicionarPacienteViewModel> _adicionarPacienteValidator;
+        private readonly IValidator<EditarPacienteViewModel> _editarPacienteValidator;
 
+        private const int TAMANHO_PAGINA = 10;
 
-    public IActionResult Index(string filtro, int pagina = 1)
-    {
-        decimal paginasTotal = 0;
-        var Pacientes = _context.Pacientes.Where(c => c.Nome.Contains(filtro)
-        || c.CPF.Contains(filtro))
-        .Select(x => new ListarPacienteViewModal
+        public PacientesController(GenConMedContext context, IValidator<AdicionarPacienteViewModel> adicionarPacienteValidator, IValidator<EditarPacienteViewModel> editarPacienteValidator)
         {
-            Id = x.Id,
-            CPF=x.CPF,
-            Nome = x.Nome,
-        });
-        paginasTotal = (decimal)Math.Ceiling((double)Pacientes.Count() / TAMANHO_PAGINA);
-
-        ViewBag.Filtro = filtro;
-        ViewBag.NumeroPagina = pagina;
-        ViewBag.TotalPaginas = paginasTotal > 0 ? paginasTotal : 1;
-
-        return View(Pacientes.Skip((pagina - 1) * TAMANHO_PAGINA).Take(TAMANHO_PAGINA));
-    }
-
-    public IActionResult Adicionar()
-    {
-
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Adicionar(AdicionarViewModel dados)
-    {
-
-        var validacao = _adicionarViewModelValidator.Validate(dados);
-
-        if (!validacao.IsValid)
-        {
-            validacao.AddToModelState(ModelState, string.Empty);
-            return View(dados);
+            _context = context;
+            _adicionarPacienteValidator = adicionarPacienteValidator;
+            _editarPacienteValidator = editarPacienteValidator;
         }
 
-        var paciente = new Paciente
+        public IActionResult Index(string filtro, int pagina = 1)
         {
-            CPF = Regex.Replace( dados.CPF, "[^0-9]",""),
-            Nome = dados.Nome,
-            DataNascimento = dados.DataNascimento,
-        };
+            var medicos = _context.Pacientes.Where(x => x.Nome.Contains(filtro) || x.CPF.Contains(filtro))
+                                            .Select(x => new ListarPacienteViewModel
+                                            {
+                                              Id = x.Id,
+                                              CPF = x.CPF,
+                                              Nome = x.Nome
+                                            });
 
-        _context.Pacientes.Add(paciente);
-        _context.SaveChanges();
+            ViewBag.Filtro = filtro;
+            ViewBag.NumeroPagina = pagina;
+            ViewBag.TotalPaginas = Math.Ceiling((decimal)medicos.Count() / TAMANHO_PAGINA);
+            return View(medicos.Skip((pagina - 1) * TAMANHO_PAGINA).Take(TAMANHO_PAGINA));
+        }
 
-        return RedirectToAction(nameof(Index));
-    }
-
-
-    public IActionResult Editar(int Id)
-    {
-
-        var paciente = _context.Pacientes.Find(Id);
-        if (paciente != null)
+        public IActionResult Adicionar()
         {
-            var InformacoesComplementares= _context.InformacoesComplementaresPaciente.FirstOrDefault(x => x.IdPaciente == Id);
+            return View();
+        }
 
-            return View(new EditarViewModal
+        [HttpPost]
+        public IActionResult Adicionar(AdicionarPacienteViewModel dados)
+        {
+            var validacao = _adicionarPacienteValidator.Validate(dados);
+
+            if(!validacao.IsValid)
             {
-                Id = paciente.Id,
-                CPF = paciente.CPF,
-                Nome = paciente.Nome,
-                DataNascimento = paciente.DataNascimento,
-                Alergias = InformacoesComplementares?.Alergias,
-                MedicamentosEmUso = InformacoesComplementares?.MedicamentosEmUso,
-                CirurgiasRealizadas = InformacoesComplementares?.CirurgiasRealizadas,
-            });
-        }
-        return NotFound();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-
-    public IActionResult Editar(int Id, EditarViewModal editarViewModal)
-    {
-        var validacao = _editarViewModelValidator.Validate(editarViewModal);
-
-        if (!validacao.IsValid)
-        {
-            validacao.AddToModelState(ModelState, string.Empty);
-            return View(editarViewModal);
-        }
-
-        var paciente = _context.Pacientes.Find(Id);
-        if (paciente != null)
-        {
-            paciente.CPF = Regex.Replace(editarViewModal.CPF, "[^0-9]","");
-            paciente.Nome = editarViewModal.Nome;
-            paciente.DataNascimento = editarViewModal.DataNascimento;
-
-            var InformacoesComplementares= _context.InformacoesComplementaresPaciente.FirstOrDefault(x => x.IdPaciente == Id);
-            if (InformacoesComplementares == null)
-            {
-                InformacoesComplementares = new InformacoesComplementaresPaciente();
+                validacao.AddToModelState(ModelState, string.Empty);
+                return View(dados);
             }
-            InformacoesComplementares.Alergias = editarViewModal.Alergias;
-            InformacoesComplementares.MedicamentosEmUso = editarViewModal.MedicamentosEmUso;
-            InformacoesComplementares.CirurgiasRealizadas = editarViewModal.CirurgiasRealizadas;
-            InformacoesComplementares.IdPaciente = Id;            
 
-            if(InformacoesComplementares.Id>0)
-               _context.InformacoesComplementaresPaciente.Update(InformacoesComplementares);
-            else   
-               _context.InformacoesComplementaresPaciente.Add(InformacoesComplementares);
-               
-            _context.Update(paciente);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
-        }
-        return NotFound();
-    }
-
-    public IActionResult Excluir(int Id)
-    {
-        var paciente = _context.Pacientes.Find(Id);
-        if (paciente != null)
-        {
-            return View(new ListarPacienteViewModal
+            var paciente = new Paciente
             {
-                Id = paciente.Id,
-                CPF = paciente.CPF,
-                Nome = paciente.Nome
-            });
-        }
-        return NotFound();
-    }
+                CPF = Regex.Replace(dados.CPF, "[^0-9]", ""),
+                Nome = dados.Nome,
+                DataNascimento = dados.DataNascimento
+            };
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Excluir(int Id, ListarPacienteViewModal dados)
-    {
-        var paciente = _context.Pacientes.Find(Id);
-        if (paciente != null)
-        {
-            _context.Remove(paciente);
+            _context.Pacientes.Add(paciente);
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
-        return NotFound();
-    }
 
+        public IActionResult Editar(int id)
+        {
+            var paciente = _context.Pacientes.Find(id);
+
+            if(paciente != null)
+            {
+                var informacoesComplementares = _context.InformacoesComplementaresPaciente.FirstOrDefault(x => x.IdPaciente == id);
+
+                return View(new EditarPacienteViewModel
+                {
+                    Id = paciente.Id,
+                    CPF = paciente.CPF,
+                    Nome = paciente.Nome,
+                    DataNascimento = paciente.DataNascimento,
+                    Alergias = informacoesComplementares?.Alergias,
+                    MedicamentosEmUso = informacoesComplementares?.MedicamentosEmUso,
+                    CirurgiasRealizadas = informacoesComplementares?.CirurgiasRealizadas,
+                });
+            }
+
+            return NotFound();
+        }
+
+         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(int id, EditarPacienteViewModel dados)
+        {
+            var validacao = _editarPacienteValidator.Validate(dados);
+            
+            if(!validacao.IsValid)
+            {
+                validacao.AddToModelState(ModelState, string.Empty);
+                return View(dados);
+            }
+            
+            var paciente = _context.Pacientes.Find(id);
+
+            if(paciente != null)
+            {
+                paciente.CPF = Regex.Replace(dados.CPF, "[^0-9]", "");
+                paciente.Nome = dados.Nome;
+                paciente.DataNascimento = dados.DataNascimento;
+
+                var informacoesComplementares = _context.InformacoesComplementaresPaciente.FirstOrDefault(x => x.IdPaciente == id);
+
+                if(informacoesComplementares == null)
+                    informacoesComplementares = new InformacoesComplementaresPaciente();
+
+                informacoesComplementares.Alergias = dados.Alergias;
+                informacoesComplementares.MedicamentosEmUso = dados.MedicamentosEmUso;
+                informacoesComplementares.CirurgiasRealizadas = dados.CirurgiasRealizadas;
+                informacoesComplementares.IdPaciente = id;
+
+                if (informacoesComplementares.Id > 0)
+                    _context.InformacoesComplementaresPaciente.Update(informacoesComplementares);
+                else
+                    _context.InformacoesComplementaresPaciente.Add(informacoesComplementares);
+                    
+                _context.Pacientes.Update(paciente);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return NotFound();
+        }
+
+        public IActionResult Excluir(int id)
+        {
+            var paciente = _context.Pacientes.Find(id);
+
+            if(paciente != null)
+            {
+                return View(new EditarPacienteViewModel
+                {
+                    Id = paciente.Id,
+                    CPF = paciente.CPF,
+                    Nome = paciente.Nome,
+                    DataNascimento = paciente.DataNascimento
+                });
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Excluir(int id, EditarPacienteViewModel dados)
+        {          
+            var paciente = _context.Pacientes.Find(id);
+
+            if(paciente != null)
+            {
+                _context.Pacientes.Remove(paciente);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return NotFound();
+        }
+
+        public IActionResult Buscar(string filtro)
+        {
+            var pacientes = _context.Pacientes.Where(x => x.Nome.Contains(filtro) || x.CPF.Contains(filtro))
+                                              .Take(10)
+                                              .Select(x => new ListarPacienteViewModel
+                                              {
+                                                Id = x.Id,
+                                                Nome = x.Nome,
+                                                CPF = x.CPF
+                                              });
+            return Json(pacientes);
+        }
+    }
 }

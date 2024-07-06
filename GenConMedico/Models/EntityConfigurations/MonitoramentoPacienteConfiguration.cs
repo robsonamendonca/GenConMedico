@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GenConMedico.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using GenConMedico.Models.Entities;
 
 namespace GenConMedico.Models.EntityConfigurations
 {
@@ -17,21 +17,20 @@ namespace GenConMedico.Models.EntityConfigurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.PressaoArterial)
-                .IsRequired()
-                .HasMaxLength(10);
+                   .IsRequired()
+                   .HasMaxLength(10);
 
             builder.Property(x => x.Temperatura)
-                .HasColumnType("DECIMAL(3,1)");
+                   .HasColumnType("DECIMAL(3,1)");
 
             builder.Property(x => x.SaturacaoOxigenio)
-                .HasColumnType("TINYINT");
+                   .HasColumnType("TINYINT");
 
             builder.Property(x => x.FrequenciaCardiaca)
-                .HasColumnType("TINYINT");
+                   .HasColumnType("TINYINT");
 
             builder.Property(x => x.DataAfericao)
-                .IsRequired();                                
-
+                   .IsRequired();
         }
     }
 }

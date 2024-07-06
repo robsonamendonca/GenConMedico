@@ -1,154 +1,145 @@
-using System.IO.Pipelines;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using GenConMedico.Models.Contexts;
 using GenConMedico.Models.Entities;
 using GenConMedico.ViewModels.Medicos;
-using Microsoft.AspNetCore.Mvc;
 
-namespace GenConMedico.Controllers;
-
-public class MedicosController : Controller
+namespace GenConMedico.Controllers
 {
-
-    private readonly GenConMed _context;
-
-    private readonly IValidator<AdicionarViewModel> _adicionarViewModelValidator;
-    private readonly IValidator<EditarViewModal> _editarViewModelValidator;
-
-    private const int TAMANHO_PAGINA = 5;
-
-    public MedicosController(GenConMed context
-    , IValidator<AdicionarViewModel> adicionarViewModelValidator
-    , IValidator<EditarViewModal> editarViewModelValidator)
+    public class MedicosController : Controller
     {
-        _context = context;
-        _adicionarViewModelValidator = adicionarViewModelValidator;
-        _editarViewModelValidator = editarViewModelValidator;
-    }
+        private readonly GenConMedContext _context;
+        private readonly IValidator<AdicionarMedicoViewModel> _adicionarMedicoValidator;
+        private readonly IValidator<EditarMedicoViewModel> _editarMedicoValidator;
+        private const int TAMANHO_PAGINA = 10;
 
-
-    public IActionResult Index(string filtro, int pagina = 1)
-    {
-        decimal paginasTotal = 0;
-        var medicos = _context.Medicos.Where(c => c.Nome.Contains(filtro)
-        || c.CRM.Contains(filtro))
-        .Select(x => new ListarMedicoViewModel
+        public MedicosController(GenConMedContext context, IValidator<AdicionarMedicoViewModel> adicionarMedicoValidator, IValidator<EditarMedicoViewModel> editarMedicoValidator)
         {
-            Id = x.Id,
-            CRM = x.CRM,
-            Nome = x.Nome,
-        });
-        paginasTotal = (decimal)Math.Ceiling((double)medicos.Count() / TAMANHO_PAGINA);
-
-        ViewBag.Filtro = filtro;
-        ViewBag.NumeroPagina = pagina;
-        ViewBag.TotalPaginas = paginasTotal > 0 ? paginasTotal : 1;
-
-        return View(medicos.Skip((pagina - 1) * TAMANHO_PAGINA).Take(TAMANHO_PAGINA));
-    }
-
-    public IActionResult Adicionar()
-    {
-
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Adicionar(AdicionarViewModel dados)
-    {
-
-        var validacao = _adicionarViewModelValidator.Validate(dados);
-
-        if (!validacao.IsValid)
-        {
-            validacao.AddToModelState(ModelState, string.Empty);
-            return View(dados);
+            _context = context;
+            _adicionarMedicoValidator = adicionarMedicoValidator;
+            _editarMedicoValidator = editarMedicoValidator;
         }
 
-        var medico = new Medico
+        public IActionResult Index(string filtro, int pagina = 1)
         {
-            CRM = dados.CRM,
-            Nome = dados.Nome,
-        };
+            var medicos = _context.Medicos.Where(x => x.Nome.Contains(filtro) || x.CRM.Contains(filtro))
+                                          .Select(x => new ListarMedicoViewModel
+                                          {
+                                            Id = x.Id,
+                                            CRM = x.CRM,
+                                            Nome = x.Nome
+                                          });
 
-        _context.Medicos.Add(medico);
-        _context.SaveChanges();
+            ViewBag.Filtro = filtro;
+            ViewBag.NumeroPagina = pagina;
+            ViewBag.TotalPaginas = Math.Ceiling((decimal)medicos.Count() / TAMANHO_PAGINA);
+            return View(medicos.Skip((pagina - 1) * TAMANHO_PAGINA).Take(TAMANHO_PAGINA));
+        }
 
-        return RedirectToAction(nameof(Index));
-    }
-
-
-    public IActionResult Editar(int Id)
-    {
-
-        var medico = _context.Medicos.Find(Id);
-        if (medico != null)
+        public IActionResult Adicionar()
         {
-            return View(new EditarViewModal
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Adicionar(AdicionarMedicoViewModel dados)
+        {
+            var validacao = _adicionarMedicoValidator.Validate(dados);
+
+            if(!validacao.IsValid)
             {
-                Id = medico.Id,
-                CRM = medico.CRM,
-                Nome = medico.Nome
-            });
-        }
-        return NotFound();
-    }
+                validacao.AddToModelState(ModelState, string.Empty);
+                return View(dados);
+            }
+            
+            var medico = new Medico
+            {
+                CRM = dados.CRM,
+                Nome = dados.Nome
+            };
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-
-    public IActionResult Editar(int Id, EditarViewModal editarViewModal)
-    {
-        var validacao = _editarViewModelValidator.Validate(editarViewModal);
-
-        if (!validacao.IsValid)
-        {
-            validacao.AddToModelState(ModelState, string.Empty);
-            return View(editarViewModal);
-        }
-
-        var medico = _context.Medicos.Find(Id);
-        if (medico != null)
-        {
-            medico.CRM = editarViewModal.CRM;
-            medico.Nome = editarViewModal.Nome;
-
-            _context.Update(medico);
+            _context.Medicos.Add(medico);
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
-        return NotFound();
-    }
 
-    public IActionResult Excluir(int Id)
-    {
-        var medico = _context.Medicos.Find(Id);
-        if (medico != null)
+        public IActionResult Editar(int id)
         {
-            return View(new ListarMedicoViewModel
+            var medico = _context.Medicos.Find(id);
+
+            if(medico != null)
             {
-                Id = medico.Id,
-                CRM = medico.CRM,
-                Nome = medico.Nome
-            });
-        }
-        return NotFound();
-    }
+                return View(new EditarMedicoViewModel
+                {
+                    Id = medico.Id,
+                    CRM = medico.CRM,
+                    Nome = medico.Nome
+                });
+            }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Excluir(int Id, ListarMedicoViewModel dados)
-    {
-        var medico = _context.Medicos.Find(Id);
-        if (medico != null)
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(int id, EditarMedicoViewModel dados)
+        {          
+            var validacao = _editarMedicoValidator.Validate(dados);
+
+            if(!validacao.IsValid)
+            {
+                validacao.AddToModelState(ModelState, string.Empty);
+                return View(dados);
+            }
+
+            var medico = _context.Medicos.Find(id);
+
+            if(medico != null)
+            {
+                medico.CRM = dados.CRM;
+                medico.Nome = dados.Nome;
+                _context.Medicos.Update(medico);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return NotFound();
+        }
+
+        public IActionResult Excluir(int id)
         {
-            _context.Remove(medico);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
-        }
-        return NotFound();
-    }
+            var medico = _context.Medicos.Find(id);
 
+            if(medico != null)
+            {
+                return View(new ListarMedicoViewModel
+                {
+                    Id = medico.Id,
+                    CRM = medico.CRM,
+                    Nome = medico.Nome
+                });
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Excluir(int id, ListarMedicoViewModel dados)
+        {          
+            var medico = _context.Medicos.Find(id);
+
+            if(medico != null)
+            {
+                _context.Medicos.Remove(medico);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return NotFound();
+        }
+    }
 }

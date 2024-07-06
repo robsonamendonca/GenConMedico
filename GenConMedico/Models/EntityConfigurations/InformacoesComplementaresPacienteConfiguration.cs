@@ -1,6 +1,6 @@
-using GenConMedico.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using GenConMedico.Models.Entities;
 
 namespace GenConMedico.Models.EntityConfigurations
 {
@@ -13,16 +13,13 @@ namespace GenConMedico.Models.EntityConfigurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Alergias)
-                .HasMaxLength(200);
-
+                   .HasMaxLength(200);
+            
             builder.Property(x => x.MedicamentosEmUso)
-                .HasMaxLength(200);
-
+                   .HasMaxLength(200);
+            
             builder.Property(x => x.CirurgiasRealizadas)
-                .HasMaxLength(200);
-
+                   .HasMaxLength(200);
         }
-
-
     }
 }
