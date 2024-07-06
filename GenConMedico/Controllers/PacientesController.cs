@@ -7,6 +7,7 @@ using GenConMedico.Models.Contexts;
 using GenConMedico.Models.Entities;
 using GenConMedico.ViewModels.Pacientes;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace GenConPaciente.Controllers;
 
@@ -90,12 +91,17 @@ public class PacientesController : Controller
         var paciente = _context.Pacientes.Find(Id);
         if (paciente != null)
         {
+            var InformacoesComplementares= _context.InformacoesComplementaresPaciente.FirstOrDefault(x => x.IdPaciente == Id);
+
             return View(new EditarViewModal
             {
                 Id = paciente.Id,
                 CPF = paciente.CPF,
                 Nome = paciente.Nome,
-                DataNascimento = paciente.DataNascimento
+                DataNascimento = paciente.DataNascimento,
+                Alergias = InformacoesComplementares?.Alergias,
+                MedicamentosEmUso = InformacoesComplementares?.MedicamentosEmUso,
+                CirurgiasRealizadas = InformacoesComplementares?.CirurgiasRealizadas,
             });
         }
         return NotFound();
@@ -121,6 +127,21 @@ public class PacientesController : Controller
             paciente.Nome = editarViewModal.Nome;
             paciente.DataNascimento = editarViewModal.DataNascimento;
 
+            var InformacoesComplementares= _context.InformacoesComplementaresPaciente.FirstOrDefault(x => x.IdPaciente == Id);
+            if (InformacoesComplementares == null)
+            {
+                InformacoesComplementares = new InformacoesComplementaresPaciente();
+            }
+            InformacoesComplementares.Alergias = editarViewModal.Alergias;
+            InformacoesComplementares.MedicamentosEmUso = editarViewModal.MedicamentosEmUso;
+            InformacoesComplementares.CirurgiasRealizadas = editarViewModal.CirurgiasRealizadas;
+            InformacoesComplementares.IdPaciente = Id;            
+
+            if(InformacoesComplementares.Id>0)
+               _context.InformacoesComplementaresPaciente.Update(InformacoesComplementares);
+            else   
+               _context.InformacoesComplementaresPaciente.Add(InformacoesComplementares);
+               
             _context.Update(paciente);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));

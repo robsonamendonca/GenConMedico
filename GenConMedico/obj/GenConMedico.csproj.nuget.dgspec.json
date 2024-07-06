@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {}
+    "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {}
   },
   "projects": {
-    "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {
+    "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
+        "projectUniqueName": "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
         "projectName": "GenConMedico",
-        "projectPath": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
+        "projectPath": "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\GenConMedico.csproj",
         "packagesPath": "C:\\Users\\usuario\\.nuget\\packages\\",
-        "outputPath": "c:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\obj\\",
+        "outputPath": "C:\\git\\robsonamendonca\\GenConMedico\\GenConMedico\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

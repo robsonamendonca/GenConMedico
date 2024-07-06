@@ -8,4 +8,8 @@ public class Paciente
 
     public DateTime DataNascimento { get; set; }
 
+    public InformacoesComplementaresPaciente? InformacoesComplementares{ get; set; } 
+
+    public ICollection<MonitoramentoPaciente> Monitoramentos{ get; set; }= null!;
+
 }

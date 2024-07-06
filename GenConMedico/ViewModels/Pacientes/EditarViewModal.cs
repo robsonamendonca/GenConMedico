@@ -16,5 +16,13 @@ namespace GenConMedico.ViewModels.Pacientes
         [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
 
+
+        public string? Alergias { get; set; }
+
+        [Display(Name = "Medicamento em Uso")]
+        public string? MedicamentosEmUso { get; set; }
+        [Display(Name = "Cirurgias Realizadas")]
+        public string? CirurgiasRealizadas { get; set; }
+
     }
 }

@@ -22,6 +22,37 @@ namespace GenConMedico.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("GenConMedico.Models.Entities.InformacoesComplementaresPaciente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Alergias")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("CirurgiasRealizadas")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("IdPaciente")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MedicamentosEmUso")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPaciente")
+                        .IsUnique();
+
+                    b.ToTable("InformacoesComplementaresPaciente", (string)null);
+                });
+
             modelBuilder.Entity("GenConMedico.Models.Entities.Medico", b =>
                 {
                     b.Property<int>("Id")
@@ -46,6 +77,41 @@ namespace GenConMedico.Migrations
                         .IsUnique();
 
                     b.ToTable("Medicos", (string)null);
+                });
+
+            modelBuilder.Entity("GenConMedico.Models.Entities.MonitoramentoPaciente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DataAfericao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("FrequenciaCardiaca")
+                        .HasColumnType("TINYINT");
+
+                    b.Property<int>("IdPaciente")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PressaoArterial")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<byte>("SaturacaoOxigenio")
+                        .HasColumnType("TINYINT");
+
+                    b.Property<decimal>("Temperatura")
+                        .HasColumnType("DECIMAL(3,1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPaciente");
+
+                    b.ToTable("MonitoramentoPaciente", (string)null);
                 });
 
             modelBuilder.Entity("GenConMedico.Models.Entities.Paciente", b =>
@@ -75,6 +141,35 @@ namespace GenConMedico.Migrations
                         .IsUnique();
 
                     b.ToTable("Pacientes", (string)null);
+                });
+
+            modelBuilder.Entity("GenConMedico.Models.Entities.InformacoesComplementaresPaciente", b =>
+                {
+                    b.HasOne("GenConMedico.Models.Entities.Paciente", "Paciente")
+                        .WithOne("InformacoesComplementares")
+                        .HasForeignKey("GenConMedico.Models.Entities.InformacoesComplementaresPaciente", "IdPaciente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Paciente");
+                });
+
+            modelBuilder.Entity("GenConMedico.Models.Entities.MonitoramentoPaciente", b =>
+                {
+                    b.HasOne("GenConMedico.Models.Entities.Paciente", "Paciente")
+                        .WithMany("Monitoramentos")
+                        .HasForeignKey("IdPaciente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Paciente");
+                });
+
+            modelBuilder.Entity("GenConMedico.Models.Entities.Paciente", b =>
+                {
+                    b.Navigation("InformacoesComplementares");
+
+                    b.Navigation("Monitoramentos");
                 });
 #pragma warning restore 612, 618
         }

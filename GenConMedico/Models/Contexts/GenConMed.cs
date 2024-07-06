@@ -18,6 +18,9 @@ public class GenConMed : DbContext
     public DbSet<Medico> Medicos => Set<Medico>();
     public DbSet<Paciente> Pacientes => Set<Paciente>();
 
+    public DbSet<InformacoesComplementaresPaciente> InformacoesComplementaresPaciente => Set<InformacoesComplementaresPaciente>();
+    public DbSet<MonitoramentoPaciente> MonitoramentoPaciente => Set<MonitoramentoPaciente>();
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(@_configuration.GetConnectionString("GenConMed"));
@@ -26,5 +29,7 @@ public class GenConMed : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder){
         modelBuilder.ApplyConfiguration(new MedicoConfiguration());
         modelBuilder.ApplyConfiguration(new PacienteConfiguration());
+        modelBuilder.ApplyConfiguration(new InformacoesComplementaresPacienteConfiguration());
+        modelBuilder.ApplyConfiguration(new MonitoramentoPacienteConfiguration());
     }
 }
